@@ -26,10 +26,14 @@ func Yazdir(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	gorillaRoot := mux.NewRouter()
-	gorillaRoot.HandleFunc("api/user/{id:[0]}", Yazdir)
-	http.Handle("/", gorillaRoot)
+	r := mux.NewRouter()
+	r.HandleFunc("/api/user/{id}", Yazdir)
+	r.HandleFunc("/lokum", func(writer http.ResponseWriter, request *http.Request) {
+		writer.WriteHeader(http.StatusOK)
+		fmt.Fprintf(writer, "adana adana merkez")
+	})
+	http.Handle("/", r)
 
-	http.ListenAndServe(":8888", nil)
+	http.ListenAndServe("127.0.0.1:9090", r)
 
 }
